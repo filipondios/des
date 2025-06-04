@@ -2,6 +2,9 @@
 
 Rust implementation of the Data Encryption Standard (DES).
 
+> [!NOTE]
+> I previously implemented the DES block encryption function in Haskell, which you can find in my repository [des.hs](https://github.com/filipondios/des.hs). Unlike this Rust implementation, which also includes deciphering, the Haskell version only supports encryption.
+
 > [!WARNING]  
 > This implementation is just made for fun so it should not be used in production.
 > Its limited to operating with 64-bit blocks of input and corresponding 
