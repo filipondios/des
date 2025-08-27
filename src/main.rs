@@ -9,8 +9,6 @@ fn main() {
     let cipher = des::encrypt_block(block, key);
     let plain  = des::decrypt_block(cipher, key); 
 
-    println!("Encrypting block {:016x} using key {:016x} produces {:016x}.",
-        block, key, cipher);
-    println!("Decrypting block {:016x} using key {:016x} produces {:016x}.",
-        cipher, key, plain);
+    println!("Encrypting block {:016x} using key {:016x} produces {:016x}.", block, key, cipher);
+    println!("Decrypting block {:016x} using key {:016x} produces {:016x}.", cipher, key, plain);
 }
