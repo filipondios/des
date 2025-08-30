@@ -8,8 +8,7 @@ Rust implementation of the Data Encryption Standard (DES).
 > [!WARNING]  
 > This implementation is just made for fun so it should not be used in production.
 > Its limited to operating with 64-bit blocks of input and corresponding 
-> encrypted 64-bit blocks of output instead of streams of bytes. This implementation
-> also does not have a cryptographically secure key generation algorithm.
+> encrypted 64-bit blocks of output instead of streams of bytes.
 
 ## Usage
 
