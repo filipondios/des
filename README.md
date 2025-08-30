@@ -1,4 +1,4 @@
-# DES.rs
+# DES
 
 Rust implementation of the Data Encryption Standard (DES).
 
