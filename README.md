@@ -1,9 +1,11 @@
 # DES
 
-Rust implementation of the Data Encryption Standard (DES).
+Rust implementation of the Data Encryption Standard (DES) and Triple Data Encryption Standard (TDES).
 
 > [!NOTE]
-> I previously implemented the DES block encryption function in Haskell, which you can find in my repository [des.hs](https://github.com/filipondios/des.hs). Unlike this Rust implementation, which also includes deciphering, the Haskell version only supports encryption.
+> I previously implemented the DES block encryption function in Haskell, which you can find in my
+> repository [des.hs](https://github.com/filipondios/des.hs). Unlike this Rust implementation,
+> which also includes deciphering, the Haskell version only supports encryption.
 
 > [!WARNING]  
 > This implementation is just made for fun so it should not be used in production.
@@ -12,15 +14,19 @@ Rust implementation of the Data Encryption Standard (DES).
 
 ## Usage
 
-The usage of this algorithm is dead simple, there are only two possible available 
-functions for the user: `des::encrypt_block` and `des::decrypt_block`. You have
-already an example at `src/main.rs` similar to this code below:
+The usage of this algorithm is dead simple, there are only two available DES functions for the
+user: `des::encrypt_block` and `des::decrypt_block` and two TDES functions: `tdes::encrypt_block` 
+and `tdes::decrypt_block`. You have already an example at `src/main.rs` similar to this code below:
 
 ```rust
-let block  = 0x0123456789ABCDEF;
-let key    = 0x133457799BBCDFF1;
-let cipher = des::encrypt_block(block,  key);
-let plain  = des::decrypt_block(cipher, key);
+let block = 0x0123456789ABCDEF;
+let keys = [0x0123456789ABCDEF, 0xFEDCBA9876543210, 0x89ABCDEF01234567];
+
+let cipher = des::encrypt_block(block,  keys[0]);
+let plain  = des::decrypt_block(cipher, keys[0]); 
+
+let cipher = tdes::encrypt_block(block,  keys[0], keys[1], keys[2]);
+let plain  = tdes::decrypt_block(cipher, keys[0], keys[1], keys[2]);
 ```
 
 Oviously both functions expect two 64-bit blocks (represented as two 64-bit
@@ -28,30 +34,13 @@ unsigned integers), one for the block to be encrypted or decrypted and the key.
 The output to the previous code must be the following:
 
 ```
-Encrypting block 0123456789abcdef using key 133457799bbcdff1 produces 85e813540f0ab405.
-Decrypting block 85e813540f0ab405 using key 133457799bbcdff1 produces 0123456789abcdef.
-```
+DES Encryption/Decryption
+Encrypting block 0123456789abcdef using key 0123456789abcdef produces 56cc09e7cfdc4cef.
+Decrypting block 56cc09e7cfdc4cef using key 0123456789abcdef produces 0123456789abcdef.
 
-## Triple DES
-
-It is not implemented in this repository but once you have the DES encryption and 
-decryption function available, you can easily define the Triple DES encryption and 
-decryption functions. In this case, it would be the following functions:
-
-```rust
-pub fn encrypt_block_3des(block: u64, key1: u64, key2: u64, key3: u64) -> u64 {
-    // Encrypt-Decrypt-Encrypt (EDE) mode
-    let step1 = des::encrypt_block(block, key1);
-    let step2 = des::decrypt_block(step1, key2);
-    encrypt_block(step2, key3)
-}
-
-pub fn decrypt_block_3des(block: u64, key1: u64, key2: u64, key3: u64) -> u64 {
-    // Decrypt-Encrypt-Decrypt (DED) mode - inverse of EDE
-    let step1 = des::decrypt_block(block, key3);
-    let step2 = des::encrypt_block(step1, key2);
-    decrypt_block(step2, key1)
-}
+TDES Encryption/Decryption
+Encrypting block 0123456789abcdef using keys (0123456789abcdef, fedcba9876543210, 89abcdef01234567), produces 691747fd88b6d228.
+Decrypting block 691747fd88b6d228 using keys (0123456789abcdef, fedcba9876543210, 89abcdef01234567), produces 0123456789abcdef.
 ```
 
 ## References
